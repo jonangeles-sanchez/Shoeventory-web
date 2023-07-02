@@ -1,7 +1,14 @@
+import { Container } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
+
 const App = () => {
   return (
     <>
-      <h1>React App</h1>
+      <Header />
+      <Container className="py-3">
+        <Outlet />
+      </Container>
     </>
   );
 };
