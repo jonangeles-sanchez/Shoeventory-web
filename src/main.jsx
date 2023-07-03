@@ -9,12 +9,13 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import NotFound from "./pages/NotFound";
-import InventoryViewAll from "./pages/InventoryViewAll";
-import InventoryViewOne from "./pages/InventoryViewOne";
+import store from "./store/store.js";
+import Home from "./views/Home";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import NotFound from "./views/NotFound";
+import InventoryViewAll from "./views/InventoryViewAll";
+import InventoryViewOne from "./views/InventoryViewOne";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,9 +31,9 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  //<Provider store={store}>
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-  //</Provider>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );
