@@ -194,7 +194,7 @@ const InventoryViewOne = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Create New Account
+            Add New Shoe
           </Button>
         )}
       />
@@ -225,7 +225,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Account</DialogTitle>
+      <DialogTitle textAlign="center">Create New Shoe</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -235,7 +235,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               gap: "1.5rem",
             }}
           >
-            {columns.map((column) => (
+            {columns.slice(1).map((column) => (
               <TextField
                 key={column.accessorKey}
                 label={column.header}
@@ -251,7 +251,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       <DialogActions sx={{ p: "1.25rem" }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button color="secondary" onClick={handleSubmit} variant="contained">
-          Create New Account
+          Create New Shoe
         </Button>
       </DialogActions>
     </Dialog>

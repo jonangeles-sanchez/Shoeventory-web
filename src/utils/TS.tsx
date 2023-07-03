@@ -215,7 +215,7 @@ const Example = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Create New Account
+            Add New Shoe
           </Button>
         )}
       />
@@ -258,7 +258,7 @@ export const CreateNewAccountModal = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Account</DialogTitle>
+      <DialogTitle textAlign="center">Create New Shoe</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -284,7 +284,7 @@ export const CreateNewAccountModal = ({
       <DialogActions sx={{ p: "1.25rem" }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button color="secondary" onClick={handleSubmit} variant="contained">
-          Create New Account
+          Create New Shoe
         </Button>
       </DialogActions>
     </Dialog>
