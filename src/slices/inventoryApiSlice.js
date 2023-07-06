@@ -5,9 +5,11 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCollections: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/collections`,
+        url: `${USERS_URL}/${data.merchantId}/merchant`,
         method: "GET",
-        body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     getCollection: builder.mutation({
