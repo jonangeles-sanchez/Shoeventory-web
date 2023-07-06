@@ -8,12 +8,13 @@ const inventorySlice = createSlice({
   name: "inventory",
   initialState,
   reducers: {
-    setInventories: (state, action) => {
+    setCollections: (state, action) => {
       state.inventories = action.payload;
+      localStorage.setItem("inventories", JSON.stringify(action.payload));
     },
   },
 });
 
-export const { setInventories } = inventorySlice.actions;
+export const { setCollections } = inventorySlice.actions;
 
 export default inventorySlice.reducer;
