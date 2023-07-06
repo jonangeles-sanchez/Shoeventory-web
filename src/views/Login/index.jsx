@@ -1,25 +1,42 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../../components/FormContainer";
-// import { useLoginMutation } from "../slices/usersApiSlice";
-// import { setCredentials } from "../slices/authSlice";
+import { useLoginMutation } from "../../slices/usersApiSlice";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../slices/authSlice";
 import Loader from "../../components/Loader";
 
 const Login = () => {
-  const email = "";
-  const password = "";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isLoading = false;
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      //const res = await login({ email, password }).unwrap();
-      //dispatch(setCredentials({ ...res }));
+      console.log({ email, password, MerchantName: "null" });
+      const res = await login({
+        email,
+        password,
+        MerchantName: "null",
+      }).unwrap();
+      dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (err) {
+      //toast.error(err?.data?.message || err.error);
       console.log(err);
     }
   };
@@ -35,6 +52,7 @@ const Login = () => {
             type="email"
             placeholder="Enter email"
             value={email}
+            onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -44,6 +62,7 @@ const Login = () => {
             type="password"
             placeholder="Enter password"
             value={password}
+            onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
@@ -61,7 +80,7 @@ const Login = () => {
 
       <Row className="py-3">
         <Col>
-          New user? <Link to="/register">Register</Link>
+          New Customer? <Link to="/register">Register</Link>
         </Col>
       </Row>
     </FormContainer>
