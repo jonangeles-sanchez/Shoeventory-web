@@ -9,6 +9,11 @@ import ShoeCollectionItem from "../../components/ShoeCollectionItem";
 // Temp
 import { useState } from "react";
 // Temp
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { setCollections } from "../../slices/inventorySlice";
+import { useGetCollectionsMutation } from "../../slices/inventoryApiSlice";
+import { useDispatch } from "react-redux";
 
 function InventoryViewAll() {
   const collections = [
@@ -43,6 +48,27 @@ function InventoryViewAll() {
       value: 600,
     },
   ];
+
+  const dispatch = useDispatch();
+  const [getCollections, { isLoading }] = useGetCollectionsMutation();
+  const token = useSelector((state) => state.auth.userInfo.token);
+
+  useEffect(() => {
+    // Fetch collections
+    async function fetchData() {
+      try {
+        const savedCollections = await getCollections({
+          merchantId: 6,
+          token: token,
+        });
+
+        dispatch(setCollections({ ...savedCollections }));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, [dispatch, getCollections, token]);
 
   const [newCollection, setNewCollection] = useState(false);
 
