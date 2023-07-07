@@ -4,6 +4,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Form,
 } from "react-bootstrap";
 import ShoeCollectionItem from "../../components/ShoeCollectionItem";
 // Temp
@@ -93,7 +94,12 @@ function InventoryViewAll() {
         ))}
         {newCollection && (
           <ListGroupItem className="list-group-item list-group-item-action flex-column align-items-start">
-            <h5>Your new collection title</h5>
+            <Form.Control
+              type="text"
+              placeholder="Your new collection's title"
+              size="lg"
+            />
+
             <p>Pairs: 0, Value: $0</p>
           </ListGroupItem>
         )}
