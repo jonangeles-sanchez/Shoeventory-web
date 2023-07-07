@@ -77,6 +77,9 @@ function InventoryViewAll() {
     setNewCollection(!newCollection);
   };
 
+  const merchantCollections =
+    useSelector((state) => state.inventory.inventories?.data) || [];
+
   return (
     <>
       <Container className="d-flex justify-content-center">
@@ -85,7 +88,7 @@ function InventoryViewAll() {
         </Card>
       </Container>
       <ListGroup className="list-group">
-        {collections.map((collection) => (
+        {merchantCollections.map((collection) => (
           <ShoeCollectionItem collection={collection} key={collection.id} />
         ))}
         {newCollection && (
