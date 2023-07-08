@@ -41,9 +41,12 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
     }),
     deleteCollection: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/collections/${data.collectionid}`,
+        url: `${USERS_URL}/${data.collectionId}`,
         method: "DELETE",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     addShoesToCollection: builder.mutation({
