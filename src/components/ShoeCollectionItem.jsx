@@ -56,6 +56,11 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
     event.stopPropagation();
   };
 
+  const handleDeleteCollection = () => {
+    deleteCollection({ collectionId: collection.id, token: token });
+    handleNewCollection();
+  };
+
   return (
     <ListGroupItem
       className=" list-group-item list-group-item-action flex-column align-items-start"
@@ -88,7 +93,12 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
           >
             {!editCollection ? "Edit" : "Save"}
           </Button>
-          <Button variant="danger" onClick={handleEditCollection}>
+          <Button
+            variant="danger"
+            onClick={
+              !editCollection ? handleDeleteCollection : handleEditCollection
+            }
+          >
             {!editCollection ? "Delete" : "Cancel"}
           </Button>
         </div>
