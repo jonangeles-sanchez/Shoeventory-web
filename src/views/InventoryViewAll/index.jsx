@@ -4,6 +4,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Form,
 } from "react-bootstrap";
 import ShoeCollectionItem from "../../components/ShoeCollectionItem";
 // Temp
@@ -14,6 +15,7 @@ import { useSelector } from "react-redux";
 import { setCollections } from "../../slices/inventorySlice";
 import { useGetCollectionsMutation } from "../../slices/inventoryApiSlice";
 import { useDispatch } from "react-redux";
+import { useAddNewCollectionMutation } from "../../slices/inventoryApiSlice";
 
 function InventoryViewAll() {
   const collections = [
@@ -52,6 +54,7 @@ function InventoryViewAll() {
   const dispatch = useDispatch();
   const [getCollections, { isLoading }] = useGetCollectionsMutation();
   const token = useSelector((state) => state.auth.userInfo.token);
+  const [addedCollection, setAddedCollection] = useState(null);
 
   useEffect(() => {
     // Fetch collections
@@ -63,18 +66,42 @@ function InventoryViewAll() {
         });
 
         dispatch(setCollections({ ...savedCollections }));
+        setAddedCollection(false);
       } catch (err) {
         console.log(err);
       }
     }
     fetchData();
-  }, [dispatch, getCollections, token]);
+  }, [dispatch, getCollections, token, addedCollection]);
 
   const [newCollection, setNewCollection] = useState(false);
+
+  const [addNewCollection, { isLoading: isAdding }] =
+    useAddNewCollectionMutation();
+  const userId = useSelector((state) => state.auth.userInfo.merchantId);
 
   const handleNewCollection = () => {
     // Switch to true or false
     setNewCollection(!newCollection);
+  };
+
+  const handleNewCollectionSubmit = () => {
+    let newCollectionTitle = document.querySelector(".new-collection-input");
+    if (newCollectionTitle.value === "") {
+      alert("Please enter a title for your new collection");
+      return;
+    }
+    console.log(newCollectionTitle.value);
+    try {
+      addNewCollection({
+        shoeCollectionName: newCollectionTitle.value,
+        merchantId: userId,
+        token: token,
+      });
+      setAddedCollection(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const merchantCollections =
@@ -93,7 +120,13 @@ function InventoryViewAll() {
         ))}
         {newCollection && (
           <ListGroupItem className="list-group-item list-group-item-action flex-column align-items-start">
-            <h5>Your new collection title</h5>
+            <Form.Control
+              type="text"
+              placeholder="Your new collection's title"
+              size="lg"
+              className="new-collection-input"
+            />
+
             <p>Pairs: 0, Value: $0</p>
           </ListGroupItem>
         )}
@@ -103,7 +136,11 @@ function InventoryViewAll() {
         >
           {newCollection ? (
             <>
-              <Button variant="primary" className="me-3">
+              <Button
+                variant="primary"
+                className="me-3"
+                onClick={handleNewCollectionSubmit}
+              >
                 Save
               </Button>
               <Button variant="secondary" className="me-3">

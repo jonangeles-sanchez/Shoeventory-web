@@ -24,6 +24,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections`,
         method: "POST",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     updateCollection: builder.mutation({
