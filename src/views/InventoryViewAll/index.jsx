@@ -56,6 +56,10 @@ function InventoryViewAll() {
   const token = useSelector((state) => state.auth.userInfo.token);
   const [addedCollection, setAddedCollection] = useState(null);
 
+  const handleSetAddedCollection = () => {
+    setAddedCollection(true);
+  };
+
   useEffect(() => {
     // Fetch collections
     async function fetchData() {
@@ -116,7 +120,11 @@ function InventoryViewAll() {
       </Container>
       <ListGroup className="list-group">
         {merchantCollections.map((collection) => (
-          <ShoeCollectionItem collection={collection} key={collection.id} />
+          <ShoeCollectionItem
+            collection={collection}
+            key={collection.id}
+            handleNewCollection={handleSetAddedCollection}
+          />
         ))}
         {newCollection && (
           <ListGroupItem className="list-group-item list-group-item-action flex-column align-items-start">
