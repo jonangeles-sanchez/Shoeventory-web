@@ -31,9 +31,12 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
     }),
     updateCollection: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/collections/${data.collectionid}`,
+        url: `${USERS_URL}/${data.collectionId}`,
         method: "PUT",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     deleteCollection: builder.mutation({
