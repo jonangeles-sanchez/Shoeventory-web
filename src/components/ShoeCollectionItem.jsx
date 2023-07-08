@@ -52,6 +52,10 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
     setEditCollection(!editCollection);
   };
 
+  const handleFormClick = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <ListGroupItem
       className=" list-group-item list-group-item-action flex-column align-items-start"
@@ -64,6 +68,7 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
           placeholder={collection.shoeCollectionName}
           size="lg"
           className="collection-rename"
+          onClick={handleFormClick}
         />
       ) : (
         <h5>{collection.shoeCollectionName}</h5>
