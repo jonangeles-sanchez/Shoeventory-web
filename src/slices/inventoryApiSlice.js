@@ -17,6 +17,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections/${data.collectionid}`,
         method: "GET",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     addNewCollection: builder.mutation({
@@ -54,6 +57,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections/${data.collectionid}/shoes`,
         method: "POST",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     getShoesFromCollection: builder.mutation({
@@ -61,6 +67,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections/${data.collectionid}/shoes`,
         method: "GET",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     updateShoesFromCollection: builder.mutation({
@@ -68,6 +77,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections/${data.collectionid}/shoes/${data.shoeid}`,
         method: "PUT",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
     deleteShoesFromCollection: builder.mutation({
@@ -75,6 +87,9 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/collections/${data.collectionid}/shoes/${data.shoeid}`,
         method: "DELETE",
         body: data,
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
       }),
     }),
   }),
