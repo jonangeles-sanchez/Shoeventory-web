@@ -10,6 +10,7 @@ import shoeJordan1 from "../../assets/shoe-jordan1.png";
 import shoeJordan4 from "../../assets/shoe-jordan4.png";
 import shoeDunk from "../../assets/shoe-dunkp.png";
 import { motion, useTransform, useViewportScroll } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Home() {
   const { scrollY } = useViewportScroll();
@@ -189,12 +190,16 @@ function Home() {
                   Take control and manage your inventory
                 </h2>
                 <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                  <Button variant="primary" size="lg" className="me-sm-2">
-                    Sign Up
-                  </Button>
-                  <Button variant="outline-primary" size="lg">
-                    Sign In
-                  </Button>
+                  <Link to="/register">
+                    <Button variant="primary" size="lg" className="me-sm-2">
+                      Sign Up
+                    </Button>
+                  </Link>
+                  <Link to="/login">
+                    <Button variant="outline-primary" size="lg">
+                      Sign In
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
