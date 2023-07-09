@@ -53,7 +53,7 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
     }),
     addShoesToCollection: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/collections/${data.collectionid}/shoes`,
+        url: `${USERS_URL}/${data.collectionId}/shoes`,
         method: "POST",
         body: data,
         headers: {
