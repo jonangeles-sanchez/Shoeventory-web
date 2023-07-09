@@ -61,8 +61,27 @@ const InventoryViewOne = () => {
     fetchData();
   }, []);
 
-  const handleCreateNewRow = (values) => {
-    tableData.push(values);
+  const handleCreateNewRow = async (values) => {
+    // tableData.push(values);
+    // console.log("--- handleCreateNewRow ---");
+    // console.log(tableData);
+    // console.log("--- handleCreateNewRow ---");
+    const httpBody = {
+      collectionId: id.id,
+      shoeCollectionId: id.id,
+      manufacturer: values.manufacturer,
+      shoeType: values.shoeType,
+      shoeName: values.shoeName,
+      shoeSize: values.shoeSize,
+      shoeColor: values.shoeColor,
+      shoeQuantity: values.shoeQuantity,
+      shoePrice: values.shoePrice,
+      token: token,
+    };
+
+    const newShoe = await addShoesToCollection(httpBody);
+    // console.log("Response from addShoesToCollection", shoes);
+    tableData.push(newShoe.data);
     setTableData([...tableData]);
   };
 
