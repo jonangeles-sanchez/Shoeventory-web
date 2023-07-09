@@ -104,11 +104,21 @@ const InventoryViewOne = () => {
   const handleDeleteRow = useCallback(
     (row) => {
       if (
-        !confirm(`Are you sure you want to delete ${row.getValue("firstName")}`)
+        !confirm(
+          `Are you sure you want to delete ${row.getValue(
+            "manufacturer"
+          )} ${row.getValue("shoeName")}? size: ${row.getValue("shoeSize")}`
+        )
       ) {
         return;
       }
       //send api delete request here, then refetch or update local table data for re-render
+      const httpBody = {
+        collectionId: id.id,
+        shoeId: row.getValue("id"),
+        token: token,
+      };
+      deleteShoesFromCollection(httpBody);
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
