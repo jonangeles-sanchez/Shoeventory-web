@@ -1,11 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import {
-  MaterialReactTable,
-  type MaterialReactTableProps,
-  type MRT_Cell,
-  type MRT_ColumnDef,
-  type MRT_Row,
-} from "material-react-table";
+import { MaterialReactTable } from "material-react-table";
 import {
   Box,
   Button,
@@ -20,47 +14,33 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { data } from "./MakeData";
+import { data } from "../../utils/MakeData";
 
-export type Shoe = {
-  Id: number;
-  Manufacturer: string;
-  ShoeType: string;
-  ShoeName: string;
-  ShoeSize: number;
-  ShoeColor: string;
-  ShoeQuantity: number;
-  ShoePrice: number;
-};
-
-const Example = () => {
+const InventoryViewOne = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState<Shoe[]>(() => data);
-  const [validationErrors, setValidationErrors] = useState<{
-    [cellId: string]: string;
-  }>({});
+  const [tableData, setTableData] = useState(() => data);
+  const [validationErrors, setValidationErrors] = useState({});
 
-  const handleCreateNewRow = (values: Shoe) => {
+  const handleCreateNewRow = (values) => {
     tableData.push(values);
     setTableData([...tableData]);
   };
 
-  const handleSaveRowEdits: MaterialReactTableProps<Shoe>["onEditingRowSave"] =
-    async ({ exitEditingMode, row, values }) => {
-      if (!Object.keys(validationErrors).length) {
-        tableData[row.index] = values;
-        //send/receive api updates here, then refetch or update local table data for re-render
-        setTableData([...tableData]);
-        exitEditingMode(); //required to exit editing mode and close modal
-      }
-    };
+  const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+    if (!Object.keys(validationErrors).length) {
+      tableData[row.index] = values;
+      //send/receive api updates here, then refetch or update local table data for re-render
+      setTableData([...tableData]);
+      exitEditingMode(); //required to exit editing mode and close modal
+    }
+  };
 
   const handleCancelRowEdits = () => {
     setValidationErrors({});
   };
 
   const handleDeleteRow = useCallback(
-    (row: MRT_Row<Shoe>) => {
+    (row) => {
       if (
         !confirm(`Are you sure you want to delete ${row.getValue("firstName")}`)
       ) {
@@ -74,9 +54,7 @@ const Example = () => {
   );
 
   const getCommonEditTextFieldProps = useCallback(
-    (
-      cell: MRT_Cell<Shoe>
-    ): MRT_ColumnDef<Shoe>["muiTableBodyCellEditTextFieldProps"] => {
+    (cell) => {
       return {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
@@ -106,10 +84,10 @@ const Example = () => {
     [validationErrors]
   );
 
-  const columns = useMemo<MRT_ColumnDef<Shoe>[]>(
+  const columns = useMemo(
     () => [
       {
-        accessorKey: "Id",
+        accessorKey: "id",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -117,7 +95,7 @@ const Example = () => {
         size: 80,
       },
       {
-        accessorKey: "Manufacturer",
+        accessorKey: "manufacturer",
         header: "Manufacturer",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -125,7 +103,7 @@ const Example = () => {
         }),
       },
       {
-        accessorKey: "ShoeType",
+        accessorKey: "shoeType",
         header: "Type",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -133,14 +111,14 @@ const Example = () => {
         }),
       },
       {
-        accessorKey: "ShoeName",
+        accessorKey: "shoeName",
         header: "Name",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "ShoeSize",
+        accessorKey: "shoeSize",
         header: "Size",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -149,14 +127,14 @@ const Example = () => {
         }),
       },
       {
-        accessorKey: "ShoeColor",
+        accessorKey: "shoeColor",
         header: "Color",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "ShoeQuantity",
+        accessorKey: "shoeQuantity",
         header: "Quantity",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -165,7 +143,7 @@ const Example = () => {
         }),
       },
       {
-        accessorKey: "ShoePrice",
+        accessorKey: "shoePrice",
         header: "Price",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -197,16 +175,20 @@ const Example = () => {
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            <div>
+              <Tooltip arrow placement="left" title="Edit">
+                <IconButton onClick={() => table.setEditingRow(row)}>
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </div>
           </Box>
         )}
         renderTopToolbarCustomActions={() => (
@@ -229,25 +211,13 @@ const Example = () => {
   );
 };
 
-interface CreateModalProps {
-  columns: MRT_ColumnDef<Shoe>[];
-  onClose: () => void;
-  onSubmit: (values: Shoe) => void;
-  open: boolean;
-}
-
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({
-  open,
-  columns,
-  onClose,
-  onSubmit,
-}: CreateModalProps) => {
-  const [values, setValues] = useState<any>(() =>
+export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
       acc[column.accessorKey ?? ""] = "";
       return acc;
-    }, {} as any)
+    }, {})
   );
 
   const handleSubmit = () => {
@@ -268,7 +238,7 @@ export const CreateNewAccountModal = ({
               gap: "1.5rem",
             }}
           >
-            {columns.map((column) => (
+            {columns.slice(1).map((column) => (
               <TextField
                 key={column.accessorKey}
                 label={column.header}
@@ -291,14 +261,14 @@ export const CreateNewAccountModal = ({
   );
 };
 
-const validateRequired = (value: string) => !!value.length;
-const validateEmail = (email: string) =>
+const validateRequired = (value) => !!value.length;
+const validateEmail = (email) =>
   !!email.length &&
   email
     .toLowerCase()
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
-const validateAge = (age: number) => age >= 18 && age <= 50;
+const validateAge = (age) => age >= 18 && age <= 50;
 
-export default Example;
+export default InventoryViewOne;

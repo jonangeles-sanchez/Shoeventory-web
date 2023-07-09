@@ -6,6 +6,7 @@ import { useDeleteCollectionMutation } from "../slices/inventoryApiSlice";
 import { useGetCollectionsMutation } from "../slices/inventoryApiSlice";
 import { useUpdateCollectionMutation } from "../slices/inventoryApiSlice";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 function ShoeCollectionItem({ collection, handleNewCollection }) {
   const [activatedCollection, setActivatedCollection] = useState(false);
@@ -84,7 +85,11 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
       </p>
       {activatedCollection && (
         <div>
-          {!editCollection && <Button variant="primary">View</Button>}
+          {!editCollection && (
+            <NavLink to={`/inventory/${collection.id}`}>
+              <Button variant="primary">View</Button>
+            </NavLink>
+          )}
           <Button
             variant="secondary"
             onClick={

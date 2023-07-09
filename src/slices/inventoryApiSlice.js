@@ -14,9 +14,8 @@ export const inventoryApiSlice = apiSlice.injectEndpoints({
     }),
     getCollection: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/collections/${data.collectionid}`,
+        url: `${USERS_URL}/${data.collectionId}`,
         method: "GET",
-        body: data,
         headers: {
           Authorization: `Bearer ${data.token}`,
         },
