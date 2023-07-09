@@ -20,6 +20,9 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { setShoes } from "../../slices/inventorySlice";
 import { useDispatch } from "react-redux";
+import { useAddShoesToCollectionMutation } from "../../slices/inventoryApiSlice";
+import { useDeleteShoesFromCollectionMutation } from "../../slices/inventoryApiSlice";
+import { useUpdateShoesFromCollectionMutation } from "../../slices/inventoryApiSlice";
 
 const InventoryViewOne = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -29,6 +32,12 @@ const InventoryViewOne = () => {
   const id = useParams();
   const token = useSelector((state) => state.auth.userInfo.token);
   const dispatch = useDispatch();
+  const [addShoesToCollection, { isLoading: addShoesLoading }] =
+    useAddShoesToCollectionMutation();
+  const [deleteShoesFromCollection, { isLoading: deleteShoesLoading }] =
+    useDeleteShoesFromCollectionMutation();
+  const [updateShoesInCollection, { isLoading: updateShoesLoading }] =
+    useUpdateShoesFromCollectionMutation();
 
   useEffect(() => {
     // Make your API call here to fetch the data
@@ -61,9 +70,31 @@ const InventoryViewOne = () => {
     if (!Object.keys(validationErrors).length) {
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
+      const httpBody = {
+        collectionId: 2,
+        shoeId: values.id,
+        shoeCollectionId: 2,
+        manufacturer: values.manufacturer,
+        shoeColor: values.shoeColor,
+        shoeName: values.shoeName,
+        shoePrice: values.shoePrice,
+        shoeQuantity: values.shoeQuantity,
+        shoeSize: values.shoeSize,
+        shoeType: values.shoeType,
+        token: token,
+      };
+      console.log(httpBody);
+      const updatedSet = await updateShoesInCollection(httpBody);
+      console.log(updatedSet);
+
       setTableData([...tableData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
+    console.log("--- handleSaveRowEdits ---");
+    console.log(values);
+    console.log(row);
+    console.log(exitEditingMode);
+    console.log("--- handleSaveRowEdits ---");
   };
 
   const handleCancelRowEdits = () => {
