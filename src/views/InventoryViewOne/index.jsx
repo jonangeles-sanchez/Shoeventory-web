@@ -14,12 +14,43 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { data } from "../../utils/MakeData";
+import { useEffect } from "react";
+import { useGetCollectionMutation } from "../../slices/inventoryApiSlice";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { setShoes } from "../../slices/inventorySlice";
+import { useDispatch } from "react-redux";
 
 const InventoryViewOne = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => data);
+  const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
+  const [getCollection, { isLoading }] = useGetCollectionMutation();
+  const id = useParams();
+  const token = useSelector((state) => state.auth.userInfo.token);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Make your API call here to fetch the data
+    // Once the data is received, update the tableData state
+    const fetchData = async () => {
+      try {
+        console.log(id.id);
+        const response = await getCollection({
+          collectionId: 2,
+          token: token,
+        });
+        const data = await response.data;
+        dispatch(setShoes([...data.shoes]));
+        setTableData([...data.shoes]);
+        console.log(data.shoes);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleCreateNewRow = (values) => {
     tableData.push(values);
@@ -87,7 +118,7 @@ const InventoryViewOne = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "Id",
+        accessorKey: "id",
         header: "ID",
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
@@ -95,7 +126,7 @@ const InventoryViewOne = () => {
         size: 80,
       },
       {
-        accessorKey: "Manufacturer",
+        accessorKey: "manufacturer",
         header: "Manufacturer",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -103,7 +134,7 @@ const InventoryViewOne = () => {
         }),
       },
       {
-        accessorKey: "ShoeType",
+        accessorKey: "shoeType",
         header: "Type",
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -111,14 +142,14 @@ const InventoryViewOne = () => {
         }),
       },
       {
-        accessorKey: "ShoeName",
+        accessorKey: "shoeName",
         header: "Name",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "ShoeSize",
+        accessorKey: "shoeSize",
         header: "Size",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -127,14 +158,14 @@ const InventoryViewOne = () => {
         }),
       },
       {
-        accessorKey: "ShoeColor",
+        accessorKey: "shoeColor",
         header: "Color",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
       },
       {
-        accessorKey: "ShoeQuantity",
+        accessorKey: "shoeQuantity",
         header: "Quantity",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -143,7 +174,7 @@ const InventoryViewOne = () => {
         }),
       },
       {
-        accessorKey: "ShoePrice",
+        accessorKey: "shoePrice",
         header: "Price",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -175,17 +206,20 @@ const InventoryViewOne = () => {
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", gap: "1rem" }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-              /
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            <div>
+              <Tooltip arrow placement="left" title="Edit">
+                <IconButton onClick={() => table.setEditingRow(row)}>
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip arrow placement="right" title="Delete">
+                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            </div>
           </Box>
         )}
         renderTopToolbarCustomActions={() => (
