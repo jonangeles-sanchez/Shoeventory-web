@@ -51,9 +51,8 @@ const InventoryViewOne = () => {
         const data = await response.data;
         dispatch(setShoes([...data.shoes]));
         setTableData([...data.shoes]);
-        console.log(data.shoes);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        alert(error);
       }
     };
 
@@ -101,18 +100,16 @@ const InventoryViewOne = () => {
         shoeType: values.shoeType,
         token: token,
       };
-      console.log(httpBody);
       const updatedSet = await updateShoesInCollection(httpBody);
-      console.log(updatedSet);
 
       setTableData([...tableData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
-    console.log("--- handleSaveRowEdits ---");
-    console.log(values);
-    console.log(row);
-    console.log(exitEditingMode);
-    console.log("--- handleSaveRowEdits ---");
+    // console.log("--- handleSaveRowEdits ---");
+    // console.log(values);
+    // console.log(row);
+    // console.log(exitEditingMode);
+    // console.log("--- handleSaveRowEdits ---");
   };
 
   const handleCancelRowEdits = () => {

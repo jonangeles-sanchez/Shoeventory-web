@@ -56,7 +56,6 @@ function InventoryViewAll() {
   const token = useSelector((state) => state.auth.userInfo.token);
   const [addedCollection, setAddedCollection] = useState(null);
   const userId = useSelector((state) => state.auth.userInfo.merchantId);
-  console.log(useSelector((state) => state.auth));
   const [newOperation, setNewOperation] = useState(false);
 
   const handleSetAddedCollection = () => {
@@ -76,7 +75,7 @@ function InventoryViewAll() {
         dispatch(setCollections({ ...savedCollections }));
         setAddedCollection(false);
       } catch (err) {
-        console.log(err);
+        alert(err);
       }
     }
     fetchData();
@@ -98,7 +97,6 @@ function InventoryViewAll() {
       alert("Please enter a title for your new collection");
       return;
     }
-    console.log(newCollectionTitle.value);
     try {
       addNewCollection({
         shoeCollectionName: newCollectionTitle.value,
@@ -108,7 +106,7 @@ function InventoryViewAll() {
       setAddedCollection(true);
       setNewOperation(true);
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
 

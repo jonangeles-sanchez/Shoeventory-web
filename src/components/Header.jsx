@@ -9,7 +9,6 @@ import { useState } from "react";
 
 function Header() {
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
