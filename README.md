@@ -74,8 +74,8 @@ To build this project, we must consider the steps to build this project:
 *  Upon completion:
   * We were able to successfully create something that would allow shoe vendors to manage their shoe inventory easily.
 * Future plans:
-  * 3 DB's is overkill. Combine dataset into 1 database.
-  * Only purpose of 3 was to become more competent in various technologies.
+  * Integrate shoe requests into this site instead of having a seperate site.
+  * Integrate transactions to view past transactions and summaries from transactions made withn the Point of sale system
 
 For details now how everything has been implemented, refer to the source code and the architecture below:
 
@@ -90,7 +90,7 @@ For details now how everything has been implemented, refer to the source code an
 
 
 ## Architecture
-![Architecture](https://i.imgur.com/E2FmI4V.png)
+![architecture](https://github.com/jonangeles-sanchez/Shoeventory-web/assets/70487639/5819711c-0e9a-4795-996b-5b49eb97a48c)
 
 ## Issues
 
