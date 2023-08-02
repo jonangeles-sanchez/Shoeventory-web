@@ -91,6 +91,20 @@ For details now how everything has been implemented, refer to the source code an
 
 ## Architecture
 ![architecture](https://github.com/jonangeles-sanchez/Shoeventory-web/assets/70487639/5819711c-0e9a-4795-996b-5b49eb97a48c)
+#### Repositories to the API's & Interfaces
+* [ShoeventoryAPI for this interface.](https://github.com/jonangeles-sanchez/ShoeventoryAPI)
+	* API for CRUD operations for shoe collections and their shoes
+* [Shoeventory Point of Sale GUI](https://github.com/jonangeles-sanchez/ShoeventoryPOS-GUI)
+	* GUI made in Python's Tkinter framework for creating transactions 
+* [Shoeventory Point of Sale API](https://github.com/jonangeles-sanchez/ShoeventoryAPI-POS)
+	* API to create and record transactions to AWS DB
+* [Shoeventory SMS Shoe Request site and notifier](https://github.com/jonangeles-sanchez/SMS-Alert-System)
+	* Site that allows merchants to login and view shoe requests
+ 	* Merchants have the ability to send SMS notifications notifying the user that their requested shoe(s) are in inventory
+  	* Twilio is used to send out sms notifications from the browser
+* [Shoeventory SMS API](https://github.com/jonangeles-sanchez/SMS-AlertAPI)
+	* API is used for storing requested shoes data along with who requested them
+ 	* Receives command when to send a notification
 
 ## Issues
 
