@@ -8,7 +8,11 @@ import { useUpdateCollectionMutation } from "../slices/inventoryApiSlice";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-function ShoeCollectionItem({ collection, handleNewCollection }) {
+function ShoeCollectionItem({
+  collection,
+  handleNewCollection,
+  setNewOperation,
+}) {
   const [activatedCollection, setActivatedCollection] = useState(false);
   const [editCollection, setEditCollection] = useState(false);
   const dispatch = useDispatch();
@@ -49,8 +53,13 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
       collectionId: collection.id,
       token: token,
     });
-    handleNewCollection();
-    setEditCollection(!editCollection);
+    try {
+      handleNewCollection();
+      setEditCollection(!editCollection);
+      setNewOperation(true);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   const handleFormClick = (event) => {
@@ -59,7 +68,12 @@ function ShoeCollectionItem({ collection, handleNewCollection }) {
 
   const handleDeleteCollection = () => {
     deleteCollection({ collectionId: collection.id, token: token });
-    handleNewCollection();
+    try {
+      handleNewCollection();
+      setNewOperation(true);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

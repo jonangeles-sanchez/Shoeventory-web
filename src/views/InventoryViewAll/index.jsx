@@ -55,6 +55,9 @@ function InventoryViewAll() {
   const [getCollections, { isLoading }] = useGetCollectionsMutation();
   const token = useSelector((state) => state.auth.userInfo.token);
   const [addedCollection, setAddedCollection] = useState(null);
+  const userId = useSelector((state) => state.auth.userInfo.merchantId);
+  console.log(useSelector((state) => state.auth));
+  const [newOperation, setNewOperation] = useState(false);
 
   const handleSetAddedCollection = () => {
     setAddedCollection(true);
@@ -62,10 +65,11 @@ function InventoryViewAll() {
 
   useEffect(() => {
     // Fetch collections
+    setNewOperation(false);
     async function fetchData() {
       try {
         const savedCollections = await getCollections({
-          merchantId: 6,
+          merchantId: userId,
           token: token,
         });
 
@@ -76,13 +80,12 @@ function InventoryViewAll() {
       }
     }
     fetchData();
-  }, [dispatch, getCollections, token, addedCollection]);
+  }, [dispatch, getCollections, token, addedCollection, newOperation, userId]);
 
   const [newCollection, setNewCollection] = useState(false);
 
   const [addNewCollection, { isLoading: isAdding }] =
     useAddNewCollectionMutation();
-  const userId = useSelector((state) => state.auth.userInfo.merchantId);
 
   const handleNewCollection = () => {
     // Switch to true or false
@@ -103,6 +106,7 @@ function InventoryViewAll() {
         token: token,
       });
       setAddedCollection(true);
+      setNewOperation(true);
     } catch (err) {
       console.log(err);
     }
@@ -124,6 +128,7 @@ function InventoryViewAll() {
             collection={collection}
             key={collection.id}
             handleNewCollection={handleSetAddedCollection}
+            setNewOperation={setNewOperation}
           />
         ))}
         {newCollection && (
