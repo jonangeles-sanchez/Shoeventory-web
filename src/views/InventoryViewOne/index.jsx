@@ -44,9 +44,8 @@ const InventoryViewOne = () => {
     // Once the data is received, update the tableData state
     const fetchData = async () => {
       try {
-        console.log(id.id);
         const response = await getCollection({
-          collectionId: 2,
+          collectionId: id.id,
           token: token,
         });
         const data = await response.data;
@@ -90,7 +89,7 @@ const InventoryViewOne = () => {
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       const httpBody = {
-        collectionId: 2,
+        collectionId: id.id,
         shoeId: values.id,
         shoeCollectionId: 2,
         manufacturer: values.manufacturer,
