@@ -90,7 +90,7 @@ For details now how everything has been implemented, refer to the source code an
 
 
 ## Architecture
-![architecture](https://github.com/jonangeles-sanchez/Shoeventory-web/assets/70487639/5819711c-0e9a-4795-996b-5b49eb97a48c)
+![shoventorybasic](https://github.com/jonangeles-sanchez/Shoeventory-web/assets/70487639/37b60ada-04a9-43f2-958c-19205c8f5cec)
 #### Repositories to the API's & Interfaces
 * [ShoeventoryAPI for this interface.](https://github.com/jonangeles-sanchez/ShoeventoryAPI)
 	* API for CRUD operations for shoe collections and their shoes
