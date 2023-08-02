@@ -9,6 +9,7 @@ import { useState } from "react";
 
 function Header() {
   const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,10 +38,10 @@ function Header() {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id="username">
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>Profile</NavDropdown.Item>
-                    </LinkContainer>
+                  <NavDropdown
+                    title={"Welcome, " + userInfo.merchantName}
+                    id="username"
+                  >
                     <LinkContainer to="/inventory">
                       <NavDropdown.Item>My collections</NavDropdown.Item>
                     </LinkContainer>
